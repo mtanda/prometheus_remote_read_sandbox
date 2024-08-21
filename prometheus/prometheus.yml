@@ -1,0 +1,6 @@
+global:
+  scrape_interval: 15s
+
+remote_read:
+  - url: http://sandbox:9415/read
+    read_recent: true

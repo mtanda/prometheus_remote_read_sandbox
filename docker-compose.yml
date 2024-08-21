@@ -1,0 +1,25 @@
+networks:
+  promapi:
+
+services:
+  prometheus:
+    image: prom/prometheus:v2.53.1
+    command:
+      - "--config.file=/etc/prometheus/prometheus.yml"
+      - "--web.enable-lifecycle"
+    volumes:
+      - ./prometheus/:/etc/prometheus/
+    ports:
+      - 9090:9090
+    networks:
+      - promapi
+
+  sandbox:
+    image: golang:1.23.0-bookworm
+    command: /bin/sh -c "while sleep 1000; do :; done"
+    volumes:
+      - ./sandbox/:/sandbox/
+    networks:
+      - promapi
+    depends_on:
+      - prometheus
